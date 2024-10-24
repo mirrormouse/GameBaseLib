@@ -1,0 +1,3 @@
+### GameBaseLib
+
+OpenGLをベースとしたミニマムなゲームエンジン
