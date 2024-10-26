@@ -20,7 +20,7 @@ Button::Button(GameMain* gameMain, float x, float y, float width, float height, 
 }
 
 void Button::Start() {
-    // 初期化が必要な場合はここに実装
+    // 初期化が必要な場合はこれを継承
 }
 
 void Button::Update() {
@@ -44,7 +44,7 @@ void Button::Update() {
 }
 
 void Button::FixedUpdate() {
-    // 固定更新が必要な場合はここに実装
+    // 固定更新が必要な場合はこれを継承
 }
 
 void Button::Draw() {

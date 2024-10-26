@@ -14,8 +14,8 @@ public:
     virtual ~Scene() = default;
 
     // LoopHandlerから継承
-    virtual void Loop() override; // シーン全体でフレーム毎に行う処理をユーザーが実装
-    virtual void FixedLoop() override; // シーン全体で定期的に行う処理をユーザーが実装
+    virtual void Loop() override; // シーン全体でフレーム毎に行う処理をユーザーが継承して実装
+    virtual void FixedLoop() override; // シーン全体で定期的に行う処理をユーザーが継承して実装
 
     // シーン固有のメソッド
     virtual void Enter() = 0;

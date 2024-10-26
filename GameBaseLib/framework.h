@@ -1,8 +1,4 @@
-﻿// header.h : 標準のシステム インクルード ファイルのインクルード ファイル、
-// またはプロジェクト専用のインクルード ファイル
-//
-
-#pragma once
+﻿#pragma once
 
 #define WIN32_LEAN_AND_MEAN             // Windows ヘッダーからほとんど使用されていない部分を除外する
 // Windows ヘッダー ファイル

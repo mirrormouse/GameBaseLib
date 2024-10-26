@@ -14,15 +14,15 @@ Text::Text(GameMain* gameMain, const std::string& text, float x, float y, FT_Fac
 }
 
 void Text::Start() {
-    // 初期化が必要な場合はここに実装
+    // 初期化が必要な場合はこれを継承
 }
 
 void Text::Update() {
-    // 更新が必要な場合はここに実装
+    // 更新が必要な場合はこれを継承
 }
 
 void Text::FixedUpdate() {
-    // 固定更新が必要な場合はここに実装
+    // 固定更新が必要な場合はこれを継承
 }
 
 void Text::Draw() {
