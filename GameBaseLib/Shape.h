@@ -22,6 +22,7 @@ public:
     void Move(float dx, float dy);
     void SetPosition(float x, float y);
     Point GetPosition() const;
+    void Update() {};
 
     // 可視性制御のための新しいメソッド
     void SetVisible(bool visible) { isVisible = visible; }

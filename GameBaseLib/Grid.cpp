@@ -21,6 +21,14 @@ void Grid::screenToGrid(const Point& screenPos, int& x, int& y) const
     y = static_cast<int>((screenPos.y - origin.y) / cellHeight); 
 }
 
+std::pair<int,int> Grid::screenToGrid(const Point& screenPos) const
+{
+    int x = static_cast<int>((screenPos.x - origin.x) / cellWidth);
+    int y = static_cast<int>((screenPos.y - origin.y) / cellHeight);
+    return { x,y };
+}
+
+
 bool Grid::isInBounds(int x, int y) const
 {
     return x >= 0 && x < width&& y >= 0 && y < height;
@@ -51,4 +59,28 @@ int Grid::getState(const std::string& layerName, int x, int y) const {
         throw std::invalid_argument("State layer does not exist");
     }
     return stateLayers.at(layerName).at(y).at(x);
+}
+
+std::vector<std::pair<int, int>> Grid::getPressedGrid(GameMain* gameMain, bool clickonly, int button) {
+
+    std::vector<std::pair<int, int>> resPoints;
+    std::vector<std::pair<double, double>> pressedPositions;
+
+    if (clickonly) {
+        pressedPositions = gameMain->GetInputManager().GetClickedPositions(button);
+    }
+    else {
+        pressedPositions = gameMain->GetInputManager().GetPressedPositions(button);
+    }
+    
+
+    for (auto ps : pressedPositions) {
+        std::pair<int, int> gridPoint = screenToGrid(Point{ static_cast<float>(ps.first), static_cast<float>(ps.second) });
+        if (isInBounds(gridPoint.first, gridPoint.second)) {
+            resPoints.push_back(gridPoint);
+        }
+    }
+
+    return resPoints;
+
 }
