@@ -24,6 +24,7 @@ public:
 
     void SetUpdateInterval(int interval) { updateInterval = interval; }
     int GetUpdateInterval() const { return updateInterval; }
+    int GetDrawOrder() const { return drawOrder; }
 
 private:
     int updateInterval;  // ƒ~ƒŠ•b’PˆÊ
