@@ -23,6 +23,7 @@ public:
     void CheckAndCallFixedUpdate();
 
     void SetUpdateInterval(int interval) { updateInterval = interval; }
+    void SetDrawOrder(int order) { drawOrder = order;  }
     int GetUpdateInterval() const { return updateInterval; }
     int GetDrawOrder() const { return drawOrder; }
 

@@ -26,7 +26,7 @@ void Scene::FixedObjectUpdate() {
     std::vector<std::shared_ptr<GameObject>> sortedObjects = gameObjects;
     std::sort(sortedObjects.begin(), sortedObjects.end(), DrawOrderCompare());
 
-    for (auto& gameObject : gameObjects) {
+    for (auto& gameObject : sortedObjects) {
         gameObject->Update();
         gameObject->CheckAndCallFixedUpdate();
         gameObject->Draw();

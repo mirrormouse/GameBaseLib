@@ -48,6 +48,7 @@ Point Shape::GetPosition() const
     return pixelVertices[0];
 }
 
+//ピクセル座標を正規化座標に変換
 void Shape::UpdateNormalizedVertices()
 {
     normalizedVertices.clear();

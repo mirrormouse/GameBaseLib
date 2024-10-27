@@ -144,6 +144,7 @@
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="Grid.h" />
     <ClInclude Include="InputManager.h" />
+    <ClInclude Include="Line.h" />
     <ClInclude Include="LoopHandler.h" />
     <ClInclude Include="Rectangle.h" />
     <ClInclude Include="Scene.h" />
@@ -160,6 +161,7 @@
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="Grid.cpp" />
     <ClCompile Include="InputManager.cpp" />
+    <ClCompile Include="Line.cpp" />
     <ClCompile Include="Rectangle.cpp" />
     <ClCompile Include="Scene.cpp" />
     <ClCompile Include="SceneManager.cpp" />
