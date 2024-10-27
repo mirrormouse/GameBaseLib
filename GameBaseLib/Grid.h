@@ -22,6 +22,11 @@ public:
 
     // 実際の描画座標からグリッド座標への変換
     void screenToGrid(const Point& screenPos, int& x, int& y) const;
+    std::pair<int, int> screenToGrid(const Point& screenPos) const;
+
+    // クリックされたグリッド座標を返す
+    std::vector<std::pair<int, int>> getPressedGrid(GameMain* gameMain, bool clickonly = false, int button = GLFW_MOUSE_BUTTON_LEFT);
+
 
     // グリッドの範囲内かどうかをチェック
     bool isInBounds(int x, int y) const;
