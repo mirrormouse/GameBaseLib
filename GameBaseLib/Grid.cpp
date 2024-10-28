@@ -15,17 +15,23 @@ Point Grid::gridToScreen(int x, int y) const
     };
 }
 
+Point Grid::gridToScreen(GridPoint p) const
+{
+    return gridToScreen(p.x, p.y);
+}
+
+
 void Grid::screenToGrid(const Point& screenPos, int& x, int& y) const
 {
     x = static_cast<int>((screenPos.x - origin.x) / cellWidth);
     y = static_cast<int>((screenPos.y - origin.y) / cellHeight); 
 }
 
-std::pair<int,int> Grid::screenToGrid(const Point& screenPos) const
+GridPoint Grid::screenToGrid(const Point& screenPos) const
 {
     int x = static_cast<int>((screenPos.x - origin.x) / cellWidth);
     int y = static_cast<int>((screenPos.y - origin.y) / cellHeight);
-    return { x,y };
+    return GridPoint{ x,y };
 }
 
 
@@ -33,6 +39,11 @@ bool Grid::isInBounds(int x, int y) const
 {
     return x >= 0 && x < width&& y >= 0 && y < height;
 }
+bool Grid::isInBounds(GridPoint p) const
+{
+    return isInBounds(p.x, p.y);
+}
+
 
 void Grid::addStateLayer(const std::string& layerName, const std::vector<std::vector<int>>& initialState) {
     if (initialState.size() != height || initialState[0].size() != width) {
@@ -50,6 +61,9 @@ void Grid::updateState(const std::string& layerName, int x, int y, int newState)
     }
     stateLayers.at(layerName).at(y).at(x) = newState;
 }
+void Grid::updateState(const std::string& layerName, GridPoint p, int newState) {
+    updateState(layerName, p.x, p.y, newState);
+}
 
 int Grid::getState(const std::string& layerName, int x, int y) const {
     if (!isInBounds(x, y)) {
@@ -60,10 +74,14 @@ int Grid::getState(const std::string& layerName, int x, int y) const {
     }
     return stateLayers.at(layerName).at(y).at(x);
 }
+int Grid::getState(const std::string& layerName, GridPoint p) const {
+    return getState(layerName, p.x, p.y);
+}
 
-std::vector<std::pair<int, int>> Grid::getPressedGrid(GameMain* gameMain, bool clickonly, int button) {
 
-    std::vector<std::pair<int, int>> resPoints;
+std::vector<GridPoint> Grid::getPressedGrid(GameMain* gameMain, bool clickonly, int button) {
+
+    std::vector<GridPoint> resPoints;
     std::vector<std::pair<double, double>> pressedPositions;
 
     if (clickonly) {
@@ -75,12 +93,17 @@ std::vector<std::pair<int, int>> Grid::getPressedGrid(GameMain* gameMain, bool c
     
 
     for (auto ps : pressedPositions) {
-        std::pair<int, int> gridPoint = screenToGrid(Point{ static_cast<float>(ps.first), static_cast<float>(ps.second) });
-        if (isInBounds(gridPoint.first, gridPoint.second)) {
+        GridPoint gridPoint = screenToGrid(Point{ static_cast<float>(ps.first), static_cast<float>(ps.second) });
+        if (isInBounds(gridPoint.x, gridPoint.y)) {
             resPoints.push_back(gridPoint);
         }
     }
 
     return resPoints;
 
+}
+
+std::shared_ptr<Line> Grid::getLine(GameMain* gameMain, GridPoint start, GridPoint end, float color[3], float thickness) {
+    std::shared_ptr<Line> line = std::make_shared<Line>(gameMain, gridToScreen(start), gridToScreen(end), color, thickness);
+    return line;
 }

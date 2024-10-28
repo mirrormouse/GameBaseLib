@@ -3,6 +3,7 @@
 #define GRID_H
 
 #include "Shape.h"
+#include "Line.h"
 #include <vector>
 #include <string>
 #include <map>
@@ -13,23 +14,29 @@
 #define GAMEBASELIB_API __declspec(dllimport)
 #endif
 
+struct GridPoint {
+    int x, y;
+};
+
 class GAMEBASELIB_API Grid {
 public:
     Grid(int width, int height, float cellWidth, float cellHeight, const Point& origin);
 
     // グリッド座標から実際の描画座標への変換
     Point gridToScreen(int x, int y) const;
+    Point gridToScreen(GridPoint p) const;
 
     // 実際の描画座標からグリッド座標への変換
     void screenToGrid(const Point& screenPos, int& x, int& y) const;
-    std::pair<int, int> screenToGrid(const Point& screenPos) const;
+    GridPoint screenToGrid(const Point& screenPos) const;
 
     // クリックされたグリッド座標を返す
-    std::vector<std::pair<int, int>> getPressedGrid(GameMain* gameMain, bool clickonly = false, int button = GLFW_MOUSE_BUTTON_LEFT);
+    std::vector<GridPoint> getPressedGrid(GameMain* gameMain, bool clickonly = false, int button = GLFW_MOUSE_BUTTON_LEFT);
 
 
     // グリッドの範囲内かどうかをチェック
     bool isInBounds(int x, int y) const;
+    bool isInBounds(GridPoint p) const;
 
     // グリッドのサイズを取得
     int getWidth() const { return width; }
@@ -43,7 +50,11 @@ public:
 
     void addStateLayer(const std::string& layerName, const std::vector<std::vector<int>>& initialState);
     void updateState(const std::string& layerName, int x, int y, int newState);
+    void updateState(const std::string& layerName, GridPoint p, int newState);
     int getState(const std::string& layerName, int x, int y) const;
+    int getState(const std::string& layerName, GridPoint p) const;
+
+    std::shared_ptr<Line> getLine(GameMain* gameMain, GridPoint start, GridPoint end, float color[3], float thickness=1.0f);
 
 private:
     int width;  // グリッドの横のマス数
