@@ -5,6 +5,14 @@
 #include <sstream>
 #include <iostream>
 
+
+static void normalize(float windowWidth, float windowHeight, float pixelX, float pixelY, float& normalizedX, float& normalizedY) {
+    normalizedX = (pixelX / windowWidth) * 2 - 1;
+    normalizedY = 1 - (pixelY / windowHeight) * 2;
+}
+
+
+
 // UTF-8 std::string を UTF-32 unsigned int vector に変換する関数
 std::vector<unsigned int> convertUtf8ToUtf32(const std::string& utf8Str) {
     std::wstring_convert<std::codecvt_utf8<char32_t>, char32_t> converter;
@@ -48,17 +56,22 @@ void TextDisplay::change_interval(float newIntervalX, float newIntervalY) {
     intervalY = newIntervalY;
 }
 
-void TextDisplay::display() {
+void TextDisplay::display(int windowWidth, int windowHeight) {
     glColor4f(color[0], color[1], color[2], color[3]);
 
-    float localX = x;
-    float localY = y;
-    float lineHeight = (face->size->metrics.height >> 6) * intervalY;
+
+    float normalizedX, normalizedY;
+    normalize(windowWidth, windowHeight, x, y, normalizedX, normalizedY);
+
+    float localX = normalizedX;
+    float localY = normalizedY;
+    float lineHeight = (face->size->metrics.height >> 6) * (intervalY / (float)windowHeight);
+
 
 
     for (size_t i = 0; i < num_chars; ++i) {
         if (utf32Text[i] == static_cast<unsigned int>('\n')) {
-            localX = x;  // X座標をリセット
+            localX = normalizedX;  // X座標をリセット
             localY -= lineHeight;  // Y座標を1行分下げる
             continue;
         }
@@ -93,7 +106,7 @@ void TextDisplay::display() {
         );
 
         // Advance the localX offset for the next character
-        localX += (face->glyph->advance.x >> 6) * intervalX; // Adjust scaling factor as needed
+        localX += (face->glyph->advance.x >> 6) * (intervalX / (float)windowWidth); // Adjust scaling factor as needed
     }
 }
 

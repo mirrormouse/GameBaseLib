@@ -10,7 +10,7 @@ class GameMain;
 
 class GAMEBASELIB_API Text : public GameObject {
 public:
-    Text(GameMain* gameMain, const std::string& text, float x, float y, FT_Face face);
+    Text(GameMain* gameMain, const std::string& text, float x, float y, FT_Face face, float interval = 0.0022f);
     ~Text() override = default;
 
     void Start() override;

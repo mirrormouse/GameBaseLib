@@ -14,12 +14,17 @@ Shape::Shape(GameMain* gameMain, const std::vector<Point>& pixelVertices, const 
 
 void Shape::Draw()
 {
+
+    UpdateNormalizedVertices();
+
     if (!isVisible) return;
 
     glColor3f(color[0], color[1], color[2]);
     glBegin(GL_POLYGON);
+
     for (const auto& point : normalizedVertices) {
         glVertex2f(point.x, point.y);
+
     }
     glEnd();
 }

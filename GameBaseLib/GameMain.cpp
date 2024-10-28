@@ -6,6 +6,21 @@
 #include <algorithm>
 
 
+static void framebufferSizeCallback(GLFWwindow* window, int width, int height) {
+
+
+    glViewport(0, 0, width, height);
+    glMatrixMode(GL_PROJECTION);
+    glLoadIdentity();
+
+    // 常に左上(-1,1)、右下(1,-1)となる座標系を設定
+    glOrtho(-1.0, 1.0, -1.0, 1.0, -1.0, 1.0);
+
+    glMatrixMode(GL_MODELVIEW);
+    glLoadIdentity();
+}
+
+
 GameMain::GameMain(int width, int height, const char* title) : inputManager(nullptr) {
     if (!glfwInit()) {
         std::cerr << "Failed to initialize GLFW\n";
@@ -22,6 +37,14 @@ GameMain::GameMain(int width, int height, const char* title) : inputManager(null
     glfwMakeContextCurrent(window);
     glfwSetWindowUserPointer(window, this);
     glfwSetKeyCallback(window, keyCallback);
+
+
+    // フレームバッファサイズ変更コールバックの設定
+    glfwSetFramebufferSizeCallback(window, framebufferSizeCallback);
+
+    // 初期サイズでの座標系の設定
+    framebufferSizeCallback(window, width, height);
+
 
     if (FT_Init_FreeType(&ft)) {
         std::cerr << "Could not init FreeType library\n";
