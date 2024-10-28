@@ -11,7 +11,6 @@ public:
     void SetEndPoint(const Point& point);
     void SetThickness(float thickness);
 
-    virtual void Draw() override;
 
 private:
     float thickness;

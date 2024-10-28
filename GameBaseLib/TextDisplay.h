@@ -1,5 +1,4 @@
 #pragma once
-
 #include <string>
 #include <vector>
 #include <ft2build.h>
@@ -28,5 +27,5 @@ public:
     void change_interval(float newIntervalX, float newIntervalY);
     void set_color(float r, float g, float b);
     void set_color(float r, float g, float b, float a);
-    void display();
+    void display(int windowWidth, int windowHeight);
 };

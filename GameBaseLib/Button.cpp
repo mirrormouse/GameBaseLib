@@ -48,6 +48,7 @@ void Button::FixedUpdate() {
 }
 
 void Button::Draw() {
+
     RenderBackground();
     RenderText();
 }
@@ -73,6 +74,7 @@ void Button::UpdateTextPosition() {
     float textX = x + (width - textDisplay->GetText().length() * textwidth) / 2;
     float textY = y + (height - textheight) / 2;
     textDisplay->SetPosition(textX, textY);
+
 }
 
 bool Button::IsPointInside(float px, float py) const {

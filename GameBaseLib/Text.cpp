@@ -3,13 +3,16 @@
 #include "CoordinateConverter.h"
 #include <GLFW/glfw3.h>
 
-Text::Text(GameMain* gameMain, const std::string& text, float x, float y, FT_Face face)
+Text::Text(GameMain* gameMain, const std::string& text, float x, float y, FT_Face face, float interval)
     : GameObject(0), gameMain(gameMain) {
-    float normalizedX, normalizedY;
-    CoordinateConverter::PixelToNormalized(gameMain->GetWindow(), x, y, normalizedX, normalizedY);
-    textDisplay = std::make_unique<TextDisplay>(text, normalizedX, normalizedY, face);
+
+    textDisplay = std::make_unique<TextDisplay>(text, x, y, face);
     SetColor(1.0f, 1.0f, 1.0f);  // デフォルトの色を白に設定
-    textDisplay->change_interval(0.0022f, 0.0022f);
+
+    int windowWidth, windowHeight;
+    glfwGetWindowSize(gameMain->GetWindow(), &windowWidth, &windowHeight);
+
+    textDisplay->change_interval(interval * windowWidth, interval * windowHeight);
     textContent = text;
 }
 
@@ -26,23 +29,28 @@ void Text::FixedUpdate() {
 }
 
 void Text::Draw() {
+
+    int windowWidth, windowHeight;
+    glfwGetWindowSize(gameMain->GetWindow(), &windowWidth, &windowHeight);
+
     // テキストの描画前にブレンディングを設定
     glEnable(GL_BLEND);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-    textDisplay->display();
+    textDisplay->display(windowWidth, windowHeight);
     // ブレンディングを無効化（オプション）
     glDisable(GL_BLEND);
 }
 
 void Text::SetText(const std::string& text) {
+
+
     textDisplay->change_string(text);
     textContent = text;
 }
 
 void Text::SetPosition(float x, float y) {
-    float normalizedX, normalizedY;
-    CoordinateConverter::PixelToNormalized(gameMain->GetWindow(), x, y, normalizedX, normalizedY);
-    textDisplay->change_place(normalizedX, normalizedY);
+
+    textDisplay->change_place(x, y);
 }
 
 void Text::SetColor(float r, float g, float b) {

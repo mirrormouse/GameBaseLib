@@ -2,12 +2,14 @@
 #define COORDINATE_CONVERTER_H
 
 #include <GLFW/glfw3.h>
-
+#include <iostream>
 class CoordinateConverter {
 public:
     static void PixelToNormalized(GLFWwindow* window, float pixelX, float pixelY, float& normalizedX, float& normalizedY) {
         int windowWidth, windowHeight;
+
         glfwGetWindowSize(window, &windowWidth, &windowHeight);
+
 
         normalizedX = (pixelX / windowWidth) * 2 - 1;
         normalizedY = 1 - (pixelY / windowHeight) * 2;

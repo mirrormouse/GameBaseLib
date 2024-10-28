@@ -62,17 +62,5 @@ void Line::UpdateLineVertices()//始点と終点をもとに、細長い矩形として解釈
 
     pixelVertices = newVertices;
 
-    UpdateNormalizedVertices();
-}
-
-void Line::Draw()
-{
-    if (!isVisible) return;
-
-    glColor3f(color[0], color[1], color[2]);
-    glBegin(GL_QUADS);  // 三角形の組み合わせではなく、四角形として描画
-    for (const auto& point : normalizedVertices) {
-        glVertex2f(point.x, point.y);
-    }
-    glEnd();
+    
 }
